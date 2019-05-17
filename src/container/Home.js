@@ -1,21 +1,17 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { withHandlers } from 'recompose'
+import { withRouter } from 'react-router-dom';
 import {
   firestoreConnect,
   isLoaded,
   isEmpty
 } from 'react-redux-firebase'
-// import TodoItem from './TodoItem'
-// import NewTodo from './NewTodo'
 
 import Table from '../components/Table';
 
 const enhance = compose(
   firestoreConnect([
-    // Load todos from Firestore which are not done into redux
-    // { collection: 'todos', where: ['done', '==', false] }
     { collection: 'movies' }
   ]),
   connect(
@@ -23,14 +19,9 @@ const enhance = compose(
       movies: firestore.ordered.movies,
     })
   ),
-  withHandlers({
-    addTodo: props => () =>
-      props.firestore.add('todos', { text: 'sample', done: false })
-  })
-)
+);
 
-const Home = ({ firestore, movies, addTodo }) => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+const Home = ({ movies, history }) => {
   return (
     <div className='App'>
       <div className='App-todos'>
@@ -40,12 +31,11 @@ const Home = ({ firestore, movies, addTodo }) => {
             ? 'Loading'
             : isEmpty(movies)
             ? 'Todo list is empty'
-            : <Table rows={movies} />
+            : <Table rows={movies} onRowClick={id => history.push(`/movie/${id}`)} />
         }
-        {/*<NewTodo />*/}
       </div>
     </div>
   )
 };
 
-export default enhance(Home);
+export default enhance(withRouter(Home));

@@ -19,7 +19,7 @@ const Table = ({ rows, onRowClick }) => (
     </TableHead>
     <TableBody>
       {rows.map(row => (
-        <TableRow key={row.id} onClick={onRowClick}>
+        <TableRow key={row.id} onClick={() => onRowClick(row.id)}>
           <TableCell component="th" scope="row">
             {row.title}
           </TableCell>
