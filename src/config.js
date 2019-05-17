@@ -1,4 +1,4 @@
-export const firebase = {
+export const firebaseConfig = {
   apiKey: "AIzaSyDfd2xXSdeKGcSmPsI19HIIwJUphg7LCyo",
   authDomain: "movie-application-9bd10.firebaseapp.com",
   databaseURL: "https://movie-application-9bd10.firebaseio.com",
@@ -13,4 +13,4 @@ export const rrfConfig = {
   enableLogging: false
 };
 
-export default { firebase, rrfConfig }
+export default { firebaseConfig, rrfConfig }
