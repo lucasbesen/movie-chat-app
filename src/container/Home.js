@@ -2,18 +2,27 @@ import React from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom';
+import queryString from 'query-string';
 import {
   firestoreConnect,
   isLoaded,
-  isEmpty
 } from 'react-redux-firebase'
 
 import Table from '../components/Table';
 
 const enhance = compose(
-  firestoreConnect([
-    { collection: 'movies' }
-  ]),
+  firestoreConnect(({ location }) => {
+    const search = queryString.parse(location.search);
+    if (search && search.title) {
+      return [
+        { collection: 'movies',
+          where: ['title', '>=', search.title]}
+      ]
+    }
+    return [
+      { collection: 'movies' },
+    ];
+  }),
   connect(
     ({ firestore }) => ({
       movies: firestore.ordered.movies,
@@ -21,20 +30,13 @@ const enhance = compose(
   ),
 );
 
-const Home = ({ movies, history }) => {
+const Home = ({ history, movies }) => {
   return (
-    <div className='App'>
-      <div className='App-todos'>
-        <h4>Todos List</h4>
-        {
-          !isLoaded(movies)
-            ? 'Loading'
-            : isEmpty(movies)
-            ? 'Todo list is empty'
-            : <Table rows={movies} onRowClick={id => history.push(`/movie/${id}`)} />
-        }
-      </div>
-    </div>
+    <>
+      {
+        !isLoaded(movies) ? 'Loading' : <Table rows={movies} onFilterByTitle={value => history.push({ pathname: '/', search: `?title=${value}` })} onRowClick={id => history.push(`/movie/${id}`)} />
+      }
+    </>
   )
 };
 

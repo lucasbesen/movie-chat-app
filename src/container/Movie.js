@@ -1,20 +1,18 @@
 import React from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { withProps } from 'recompose'
-import { withRouter } from 'react-router-dom';
+import {withHandlers, withProps} from 'recompose'
 import { get } from 'lodash';
 import {
   firestoreConnect,
   isLoaded,
 } from 'react-redux-firebase'
+import Chat from '../components/Chat';
 
 const enhance = compose(
-  withRouter,
   withProps(({ match: { params: { movieId } } }) => ({
     movieId
   })),
-
   firestoreConnect(({ movieId }) => [
     {
       collection: 'movies',
@@ -24,18 +22,20 @@ const enhance = compose(
   connect(({ firestore: { data } }, { movieId }) => ({
     movie: get(data, `movies.${movieId}`)
   })),
+  withHandlers({
+    addComment: props => ({ comment }) => {
+      const { firestore, movieId } = props;
+      return firestore.collection('movies').doc(movieId).update({ 'comments': firestore.FieldValue.arrayUnion(comment) })
+    },
+  })
 );
 
-const Movie = ({ movie }) => {
-  console.log('movie', movie);
+const Movie = ({ addComment, movie }) => {
   return (
-    <div className='App'>
-      <div className='App-todos'>
-        <h4>Todos List</h4>
-        {!isLoaded(movie) ? 'Loading' : movie.comments.map(comment => (<p>{comment}</p>))}
-      </div>
-    </div>
+    <>
+      {!isLoaded(movie) ? 'Loading' : <Chat movie={movie} addComment={addComment} />}
+    </>
   )
 };
 
-export default enhance(withRouter(Movie));
+export default enhance(Movie);
