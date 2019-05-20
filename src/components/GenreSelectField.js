@@ -10,12 +10,16 @@ import { getGenres } from '../utils';
 const GenreSelectField = ({ onChangeFilter, location }) => {
   const search = queryString.parse(location.search);
   const [genreFilter, setGenreFilter] = useState(search && search.genre ? search.genre : '');
+  const handleGenreFilter = (value) => {
+    onChangeFilter(value);
+    setGenreFilter(value);
+  };
   return (
     <FormControl style={{ minWidth: 150 }}>
       <Select
         displayEmpty
         value={genreFilter}
-        onChange={e => onChangeFilter(e.target.value) && setGenreFilter(e.target.value)}
+        onChange={e => handleGenreFilter(e.target.value)}
       >
         <MenuItem value="">
           <em>All</em>

@@ -5,13 +5,15 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import TableFooter from '@material-ui/core/TableFooter';
+import TablePagination from '@material-ui/core/TablePagination';
 import Paper from "@material-ui/core/Paper";
 import Input from '@material-ui/core/Input';
 import {debounce} from 'lodash';
 import { withRouter } from 'react-router-dom';
 import queryString from "query-string";
 
-import {formatRevenue, formatRuntime} from "../utils";
+import {formatRevenue, formatRuntime, paginateResult} from "../utils";
 
 import GenreSelectField from './GenreSelectField';
 
@@ -22,15 +24,22 @@ const StyledRow = styled(TableRow)`
   }
 `;
 
-const Table = ({ rows, onRowClick, onFilterByTitle, onFilterByGenre, location }) => {
+const Table = ({ rows, onRowClick, onFilterByTitle, onFilterByGenre, location, handlePageChange }) => {
+  const filteredRows = paginateResult(rows, location);
   const search = queryString.parse(location.search);
   const [titleFilter, setTitleFilter] = useState(search && search.title ? search.title : '');
+  const [page, setPage] = useState(search && search.page  && Number(search.page)? Number(search.page) : 0);
   const onChangeFilter = debounce(value => {
     onFilterByTitle(value);
   }, 800);
   const handleTitleFilter = (value) => {
     onChangeFilter(value);
     setTitleFilter(value);
+  };
+  const handlePage= (value) => {
+    console.log('okok', value);
+    handlePageChange(value);
+    setPage(value);
   };
 
   return (
@@ -55,7 +64,7 @@ const Table = ({ rows, onRowClick, onFilterByTitle, onFilterByGenre, location })
               <GenreSelectField onChangeFilter={value => onFilterByGenre(value)} location={location} />
             </TableCell>
           </TableRow>
-          {rows.map((row, index) => (
+          {filteredRows.map((row, index) => (
             <StyledRow key={index} onClick={() => onRowClick(row.title)}>
               <TableCell component="th" scope="row">
                 {row.title}
@@ -68,6 +77,11 @@ const Table = ({ rows, onRowClick, onFilterByTitle, onFilterByGenre, location })
             </StyledRow>
           ))}
         </TableBody>
+        <TableFooter>
+          <TableRow>
+            <TablePagination rowsPerPageOptions={[]} rowsPerPage={20} count={rows.length} page={page} labelDisplayedRows={() => {}} onChangePage={(e, page) => handlePage(page)} />
+          </TableRow>
+        </TableFooter>
       </MaterialTable>
     </Paper>
   );

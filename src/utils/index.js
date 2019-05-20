@@ -33,3 +33,19 @@ export const getMovies = (location) => {
 
   return filteredMovies;
 };
+
+export const paginateResult = (movies, location) => {
+  let filteredMovies = [...movies];
+  const search = queryString.parse(location.search);
+  if (search && search.page) {
+    const index = 20 * search.page;
+    if (index === -1) {
+      filteredMovies = filteredMovies.slice(filteredMovies.length - 20, filteredMovies.length);
+    } else {
+      filteredMovies = filteredMovies.slice(index, index + 20);
+    }
+  } else {
+    filteredMovies = filteredMovies.slice(0, 20);
+  }
+  return filteredMovies;
+};
