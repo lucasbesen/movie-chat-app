@@ -87,7 +87,7 @@ const Table = ({ rows, onRowClick, onFilterByTitle, onFilterByGenre, location, h
           <TableRow>
             <TablePagination
               rowsPerPageOptions={[]}
-              rowsPerPage={20}
+              rowsPerPage={10}
               count={rows.length}
               page={page}
               labelDisplayedRows={() => {}}

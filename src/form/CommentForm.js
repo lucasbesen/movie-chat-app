@@ -22,7 +22,7 @@ const CommentForm = ({ handleSubmit }) => (
   <form onSubmit={handleSubmit}>
     <Wrapper>
       <Field name="comment" component={StyledTextField} label="Comment" />
-      <Button type="submit" color="primary">
+      <Button type="submit" color="secondary">
         <Icon>send</Icon>
       </Button>
     </Wrapper>
