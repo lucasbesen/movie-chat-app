@@ -30,25 +30,24 @@ const Body = styled.div`
 
 const Title = styled.p`
   color: #fff;
+  margin-left: 10px;
 `;
 
 const StyledButton = styled(Button).attrs({ style: () => ({ color: '#fff' }) })``;
 
-const Chat = ({ addComment, history, movie }) => {
-  return (
-    <Wrapper>
-      <Header>
-        <StyledButton onClick={() => history.push('/')}>
-          <Icon>arrow_back</Icon>
-        </StyledButton>
-        <Title>{`${movie.title} Comments`}</Title>
-      </Header>
-      <Body>
-        {movie.comments.map(comment => (<Message message={comment} />))}
-      </Body>
-      <CommentForm onSubmit={addComment}/>
-    </Wrapper>
-  )
-};
+const Chat = ({ addComment, history, comments, match: { params } }) => (
+  <Wrapper>
+    <Header>
+      <StyledButton onClick={() => history.push('/')}>
+        <Icon>arrow_back</Icon>
+      </StyledButton>
+      <Title>{`${params.movieId} Comments`}</Title>
+    </Header>
+    <Body>
+      {comments.map((comment, index) => (<Message key={index} message={comment.message} />))}
+    </Body>
+    <CommentForm onSubmit={addComment}/>
+  </Wrapper>
+);
 
 export default withRouter(Chat);

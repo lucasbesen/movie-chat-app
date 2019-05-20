@@ -18,13 +18,6 @@ const Wrapper = styled.div`
   padding: 5px;
 `;
 
-const enhance = compose(
-  reduxForm({
-    form: 'newComment',
-    onSubmitSuccess: (result, dispatch, props) => props.reset()
-  }),
-);
-
 const CommentForm = ({ handleSubmit }) => (
   <form onSubmit={handleSubmit}>
     <Wrapper>
@@ -38,6 +31,13 @@ const CommentForm = ({ handleSubmit }) => (
       </Button>
     </Wrapper>
   </form>
+);
+
+const enhance = compose(
+  reduxForm({
+    form: 'newComment',
+    onSubmitSuccess: (result, dispatch, props) => props.reset()
+  }),
 );
 
 export default enhance(CommentForm);
