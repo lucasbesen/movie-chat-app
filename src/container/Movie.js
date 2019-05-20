@@ -1,31 +1,25 @@
-import React from 'react'
-import { compose } from 'redux'
-import { connect } from 'react-redux'
-import {withHandlers, withProps} from 'recompose'
+import React from 'react';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { withHandlers, withProps } from 'recompose';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import {
-  firestoreConnect,
-  isLoaded,
-} from 'react-redux-firebase'
+import { firestoreConnect, isLoaded } from 'react-redux-firebase';
+
 import Chat from '../components/Chat';
 
-const Movie = ({ addComment, comments }) => {
-  return (
-    <>
-      {!isLoaded(comments) ? <CircularProgress /> : <Chat comments={comments} addComment={addComment} />}
-    </>
-  )
-};
+const Movie = ({ addComment, comments }) => (
+  <>{!isLoaded(comments) ? <CircularProgress /> : <Chat comments={comments} addComment={addComment} />}</>
+);
 
 const enhance = compose(
   withProps(({ match: { params: { movieId } } }) => ({
-    movieId
+    movieId,
   })),
   firestoreConnect(({ movieId }) => [
     {
       collection: 'comments',
       where: ['movie', '==', movieId],
-    }
+    },
   ]),
   connect(({ firestore }) => ({
     comments: firestore.ordered.comments,
@@ -37,7 +31,7 @@ const enhance = compose(
         return firestore.add({ collection: 'comments' }, { movie: movieId, message: comment });
       }
     },
-  })
+  }),
 );
 
 export default enhance(Movie);

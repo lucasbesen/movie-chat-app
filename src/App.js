@@ -7,18 +7,20 @@ import AppRouter from './AppRouter';
 
 import './App.css';
 
-const initialState = { firebase: { authError: null } };
-const store = configureStore(initialState);
+const App = () => {
+  const initialState = { firebase: { authError: null } };
+  const store = configureStore(initialState);
 
-const App = () => (
-  <Provider store={store}>
-    <AppWrapper>
-      <p>Movie chat application for Turtle.AI</p>
-      <AppRouter />
-      <p>Made by @lucasbesen</p>
-    </AppWrapper>
-  </Provider>
-);
+  return (
+    <Provider store={store}>
+      <AppWrapper>
+        <p>Movie chat application for Turtle.AI</p>
+        <AppRouter />
+        <p>Made by @lucasbesen</p>
+      </AppWrapper>
+    </Provider>
+  );
+};
 
 const AppWrapper = styled.div`
   display: flex;

@@ -21,11 +21,15 @@
     "redux-form-material-ui": "next",
     "styled-components": "^4.2.0"
   },
+  "devDependencies": {
+    "prettier": "^1.15.1"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "prettier": "prettier --write --single-quote true --trailing-comma all --print-width 120 src/**/*.js"
   },
   "eslintConfig": {
     "extends": "react-app"

@@ -7,16 +7,8 @@ import Movie from './container/Movie';
 const AppRouter = () => (
   <BrowserRouter>
     <Switch>
-      <Route
-        path="/"
-        exact
-        component={Home}
-      />
-      <Route
-        path="/movie/:movieId"
-        exact
-        component={Movie}
-      />
+      <Route path="/" exact component={Home} />
+      <Route path="/movie/:movieId" exact component={Movie} />
     </Switch>
   </BrowserRouter>
 );
