@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import MaterialTable from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -8,6 +8,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from "@material-ui/core/Paper";
 import Input from '@material-ui/core/Input';
 import {debounce} from 'lodash';
+import { withRouter } from 'react-router-dom';
+import queryString from "query-string";
 
 import {formatRevenue, formatRuntime} from "../utils";
 
@@ -20,10 +22,16 @@ const StyledRow = styled(TableRow)`
   }
 `;
 
-const Table = ({ rows, onRowClick, onFilterByTitle }) => {
+const Table = ({ rows, onRowClick, onFilterByTitle, onFilterByGenre, location }) => {
+  const search = queryString.parse(location.search);
+  const [titleFilter, setTitleFilter] = useState(search && search.title ? search.title : '');
   const onChangeFilter = debounce(value => {
     onFilterByTitle(value);
   }, 800);
+  const handleTitleFilter = (value) => {
+    onChangeFilter(value);
+    setTitleFilter(value);
+  };
 
   return (
     <Paper>
@@ -41,14 +49,14 @@ const Table = ({ rows, onRowClick, onFilterByTitle }) => {
         <TableBody>
           <TableRow>
             <TableCell colSpan={5}>
-              <Input placeholder="Filter by title" onChange={e => onChangeFilter(e.target.value)} />
+              <Input placeholder="Filter by title" value={titleFilter} onChange={e => handleTitleFilter(e.target.value)} />
             </TableCell>
             <TableCell>
-              <GenreSelectField />
+              <GenreSelectField onChangeFilter={value => onFilterByGenre(value)} location={location} />
             </TableCell>
           </TableRow>
-          {rows.map(row => (
-            <StyledRow key={row.id} onClick={() => onRowClick(row.id)}>
+          {rows.map((row, index) => (
+            <StyledRow key={index} onClick={() => onRowClick(row.title)}>
               <TableCell component="th" scope="row">
                 {row.title}
               </TableCell>
@@ -65,4 +73,4 @@ const Table = ({ rows, onRowClick, onFilterByTitle }) => {
   );
 };
 
-export default Table;
+export default withRouter(Table);

@@ -2,12 +2,20 @@ import React from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import {withHandlers, withProps} from 'recompose'
-import { get } from 'lodash';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import {
   firestoreConnect,
   isLoaded,
 } from 'react-redux-firebase'
 import Chat from '../components/Chat';
+
+const Movie = ({ addComment, comments }) => {
+  return (
+    <>
+      {!isLoaded(comments) ? <CircularProgress /> : <Chat comments={comments} addComment={addComment} />}
+    </>
+  )
+};
 
 const enhance = compose(
   withProps(({ match: { params: { movieId } } }) => ({
@@ -15,27 +23,21 @@ const enhance = compose(
   })),
   firestoreConnect(({ movieId }) => [
     {
-      collection: 'movies',
-      doc: movieId
+      collection: 'comments',
+      where: ['movie', '==', movieId],
     }
   ]),
-  connect(({ firestore: { data } }, { movieId }) => ({
-    movie: get(data, `movies.${movieId}`)
+  connect(({ firestore }) => ({
+    comments: firestore.ordered.comments,
   })),
   withHandlers({
     addComment: props => ({ comment }) => {
       const { firestore, movieId } = props;
-      return firestore.collection('movies').doc(movieId).update({ 'comments': firestore.FieldValue.arrayUnion(comment) })
+      if (comment) {
+        return firestore.add({ collection: 'comments' }, { movie: movieId, message: comment });
+      }
     },
   })
 );
-
-const Movie = ({ addComment, movie }) => {
-  return (
-    <>
-      {!isLoaded(movie) ? 'Loading' : <Chat movie={movie} addComment={addComment} />}
-    </>
-  )
-};
 
 export default enhance(Movie);
