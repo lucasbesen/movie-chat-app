@@ -6,32 +6,37 @@ import 'firebase/database';
 import 'firebase/firestore';
 import firebase from 'firebase/app';
 
-import rootReducer from './reducer'
-import { firebaseConfig } from '../config';
+import rootReducer from './reducer';
 
-export default function configureStore (initialState, history) {
-  firebase.initializeApp(firebaseConfig);
+const configureStore = () => {
+  firebase.initializeApp({
+    apiKey: process.env.REACT_APP_API_KEY,
+    authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+    databaseURL: process.env.REACT_APP_DATABASE_URL,
+    projectId: process.env.REACT_APP_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  });
 
   const createStoreWithMiddleware = compose(
-    reactReduxFirebase(firebase,
-      {
-        userProfile: 'users',
-        useFirestoreForProfile: true,
-        enableLogging: false
-      }
-    ),
+    reactReduxFirebase(firebase, {
+      userProfile: 'users',
+      useFirestoreForProfile: true,
+      enableLogging: false,
+    }),
     reduxFirestore(firebase),
-)(createStore);
+  )(createStore);
 
-  const store = createStoreWithMiddleware(rootReducer)
+  const store = createStoreWithMiddleware(rootReducer);
 
   if (module.hot) {
-    // Enable Webpack hot module replacement for reducers
     module.hot.accept('./reducer', () => {
       const nextRootReducer = require('./reducer');
-      store.replaceReducer(nextRootReducer)
-    })
+      store.replaceReducer(nextRootReducer);
+    });
   }
 
-  return store
-}
+  return store;
+};
+
+export default configureStore;

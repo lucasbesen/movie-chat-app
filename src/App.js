@@ -5,28 +5,39 @@ import styled from 'styled-components';
 import configureStore from './core/store';
 import AppRouter from './AppRouter';
 
+import Header from './components/Header';
+
 import './App.css';
-
-const initialState = { firebase: { authError: null } };
-const store = configureStore(initialState);
-
-const App = () => (
-  <Provider store={store}>
-    <AppWrapper>
-      <p>Movie chat application for Turtle.AI</p>
-      <AppRouter />
-      <p>Made by @lucasbesen</p>
-    </AppWrapper>
-  </Provider>
-);
 
 const AppWrapper = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
+`;
+
+const ContentWrapper = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 30px;
+  margin: 20px 0px;
 `;
+
+const App = () => {
+  const initialState = { firebase: { authError: null } };
+  const store = configureStore(initialState);
+
+  return (
+    <Provider store={store}>
+      <AppWrapper>
+        <Header />
+        <ContentWrapper>
+          <AppRouter />
+        </ContentWrapper>
+      </AppWrapper>
+    </Provider>
+  );
+};
 
 export default App;
