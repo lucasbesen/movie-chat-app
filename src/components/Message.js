@@ -10,15 +10,15 @@ const Wrapper = styled.div`
 const Avatar = styled.div`
   width: 30px;
   height: 30px;
-  border: 1px solid #3f51b5;
-  background-color: #3f51b5;
+  border: 1px solid #2196f3;
+  background-color: #2196f3;
   border-radius: 15px;
   margin-right: 15px;
 `;
 
 const Text = styled.div`
   color: #fff;
-  background-color: #3f51b5;
+  background-color: #2196f3;
   word-break: break-word;
   max-width: 500px;
   padding: 8px;

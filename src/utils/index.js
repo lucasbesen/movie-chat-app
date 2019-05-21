@@ -56,7 +56,7 @@ export const paginateResult = (movies: Movie[], location: RouteComponentProps): 
   if (search && search.page) {
     const index = 10 * search.page;
     if (index === -1) {
-      filteredMovies = filteredMovies.slice(filteredMovies.length - 10, filteredMovies.length);
+      filteredMovies = filteredMovies.slice(0, 10);
     } else {
       filteredMovies = filteredMovies.slice(index, index + 10);
     }
