@@ -1,3 +1,4 @@
+// @flow
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { debounce } from 'lodash';
@@ -13,9 +14,13 @@ import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
 import Input from '@material-ui/core/Input';
 
+import type { RouteComponentProps } from 'react-router-dom';
+
 import { formatRevenue, formatRuntime, paginateResult } from '../utils';
 
 import GenreSelectField from './GenreSelectField';
+
+import type {Movie} from "../utils";
 
 const StyledRow = styled(TableRow)`
   cursor: pointer;
@@ -24,22 +29,30 @@ const StyledRow = styled(TableRow)`
   }
 `;
 
-const Table = ({ rows, onRowClick, onFilterByTitle, onFilterByGenre, location, handlePageChange }) => {
+type Props = {
+  handlePageChange: (value: number) => void,
+  onFilterByGenre: (value: string) => void,
+  onFilterByTitle: (value: string) => void,
+  onRowClick: (id: string) => void,
+  rows: Movie[],
+} & RouteComponentProps;
+
+const Table = ({ rows, onRowClick, onFilterByTitle, onFilterByGenre, location, handlePageChange }: Props) => {
   const filteredRows = paginateResult(rows, location);
   const search = queryString.parse(location.search);
   const [titleFilter, setTitleFilter] = useState(search && search.title ? search.title : '');
   const [page, setPage] = useState(search && search.page && Number(search.page) ? Number(search.page) : 0);
 
-  const onChangeFilter = debounce(value => {
+  const onChangeFilter = debounce((value: string): void => {
     onFilterByTitle(value);
   }, 800);
 
-  const handleTitleFilter = value => {
+  const handleTitleFilter = (value: string): void => {
     onChangeFilter(value);
     setTitleFilter(value);
   };
 
-  const handlePage = value => {
+  const handlePage = (value: number): void => {
     handlePageChange(value);
     setPage(value);
   };
@@ -79,7 +92,7 @@ const Table = ({ rows, onRowClick, onFilterByTitle, onFilterByGenre, location, h
               <TableCell>{formatRuntime(row.runtime)}</TableCell>
               <TableCell>{formatRevenue(row.revenue)}</TableCell>
               <TableCell>{row.rating}</TableCell>
-              <TableCell>{`${row.genre.map(value => value)}`}</TableCell>
+              <TableCell>{`${row.genre.map(value => value.toString())}`}</TableCell>
             </StyledRow>
           ))}
         </TableBody>
