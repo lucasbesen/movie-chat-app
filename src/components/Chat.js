@@ -1,11 +1,16 @@
+// @flow
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
 
+import type { RouteComponentProps } from 'react-router-dom';
+
 import CommentForm from './CommentForm';
 import Message from '../components/Message';
+
+import type { Comment } from "../utils";
 
 const Wrapper = styled.div`
   display: flex;
@@ -36,7 +41,12 @@ const Title = styled.p`
 
 const StyledButton = styled(Button).attrs({ style: () => ({ color: '#fff' }) })``;
 
-const Chat = ({ addComment, history, comments, match: { params } }) => (
+type Props = {
+  comments: Comment[],
+  addComment: () => void,
+} & RouteComponentProps;
+
+const Chat = ({ addComment, history, comments, match: { params } }: Props) => (
   <Wrapper>
     <Header>
       <StyledButton onClick={() => history.push('/')}>

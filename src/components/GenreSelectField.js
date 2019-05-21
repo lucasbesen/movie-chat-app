@@ -1,3 +1,4 @@
+// @flow
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import queryString from 'query-string';
@@ -5,13 +6,19 @@ import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
 
+import type { RouteComponentProps } from 'react-router-dom';
+
 import { getGenres } from '../utils';
 
-const GenreSelectField = ({ onChangeFilter, location }) => {
+type Props = {
+  onChangeFilter: (string) => void,
+} & RouteComponentProps;
+
+const GenreSelectField = ({ onChangeFilter, location }: Props) => {
   const search = queryString.parse(location.search);
   const [genreFilter, setGenreFilter] = useState(search && search.genre ? search.genre : '');
 
-  const handleGenreFilter = value => {
+  const handleGenreFilter = (value: string): void => {
     onChangeFilter(value);
     setGenreFilter(value);
   };

@@ -1,12 +1,28 @@
+// @flow
 import queryString from 'query-string';
+import type { RouteComponentProps } from 'react-router-dom';
 
 import movies from '../core/movies';
 
-export const formatRuntime = runtime => Math.floor(runtime / 60) + 'h ' + (runtime % 60) + 'm';
+export type Movie = {
+  title: string,
+  year: number,
+  runtime: number,
+  revenue: number,
+  rating: number,
+  genre: string[],
+};
 
-export const formatRevenue = revenue => (revenue ? `$${revenue} M` : '-');
+export type Comment = {
+  title: string,
+  message: string,
+};
 
-export const addFilter = (filterName, value, location) => {
+export const formatRuntime = (runtime: number): string => Math.floor(runtime / 60) + 'h ' + (runtime % 60) + 'm';
+
+export const formatRevenue = (revenue: number): string => (revenue ? `$${revenue} M` : '-');
+
+export const addFilter = (filterName: string, value: string, location: RouteComponentProps) => {
   const parsed = queryString.parse(location.search);
   const search = {
     ...parsed,
@@ -15,13 +31,13 @@ export const addFilter = (filterName, value, location) => {
   return `?${queryString.stringify(search)}`;
 };
 
-export const getGenres = () => {
+export const getGenres = (): string[] => {
   const genresArray = [];
   movies.map(movie => movie.genre.map(genre => !genresArray.includes(genre) && genresArray.push(genre)));
   return genresArray;
 };
 
-export const getMovies = location => {
+export const getMovies = (location: RouteComponentProps): Movie[] => {
   const search = queryString.parse(location.search);
   let filteredMovies = [...movies];
   if (search && search.title) {
@@ -34,7 +50,7 @@ export const getMovies = location => {
   return filteredMovies;
 };
 
-export const paginateResult = (movies, location) => {
+export const paginateResult = (movies: Movie[], location: RouteComponentProps): Movie[] => {
   let filteredMovies = [...movies];
   const search = queryString.parse(location.search);
   if (search && search.page) {

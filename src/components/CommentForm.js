@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import { compose } from 'recompose';
 import { reduxForm } from 'redux-form';
@@ -18,7 +19,11 @@ const Wrapper = styled.div`
   padding: 5px;
 `;
 
-const CommentForm = ({ handleSubmit }) => (
+type Props = {
+  handleSubmit: () => void,
+};
+
+const CommentForm = ({ handleSubmit }: Props) => (
   <form onSubmit={handleSubmit}>
     <Wrapper>
       <Field name="comment" component={StyledTextField} label="Comment" />

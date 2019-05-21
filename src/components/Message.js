@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import styled from 'styled-components';
 
@@ -23,7 +24,11 @@ const Text = styled.div`
   padding: 8px;
 `;
 
-const Message = ({ message }) => (
+type Props = {
+  message: string,
+};
+
+const Message = ({ message }: Props) => (
   <Wrapper>
     <Avatar />
     <Text>{message}</Text>

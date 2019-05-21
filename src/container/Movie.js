@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -7,7 +8,12 @@ import { firestoreConnect, isLoaded } from 'react-redux-firebase';
 
 import Chat from '../components/Chat';
 
-const Movie = ({ addComment, comments }) => (
+type Props = {
+  comments: string[],
+  addComment: () => void,
+};
+
+const Movie = ({ addComment, comments }: Props) => (
   <>{!isLoaded(comments) ? <CircularProgress /> : <Chat comments={comments} addComment={addComment} />}</>
 );
 
