@@ -3,9 +3,9 @@ import { compose } from 'recompose';
 import { reduxForm } from 'redux-form';
 import { Field } from 'redux-form';
 import { TextField } from 'redux-form-material-ui';
-import Button from '@material-ui/core/Button';
+import Button from '@material-ui/core/Button/index';
 import styled from 'styled-components';
-import Icon from '@material-ui/core/Icon';
+import Icon from '@material-ui/core/Icon/index';
 
 const StyledTextField = styled(TextField)`
   width: 466px;

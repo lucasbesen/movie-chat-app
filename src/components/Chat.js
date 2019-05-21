@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
 
-import CommentForm from '../form/CommentForm';
+import CommentForm from './CommentForm';
 import Message from '../components/Message';
 
 const Wrapper = styled.div`
