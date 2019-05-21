@@ -29,6 +29,8 @@ const StyledRow = styled(TableRow)`
   }
 `;
 
+const StyledTable = styled(MaterialTable).attrs({ style: { width: 1000 } })``;
+
 type Props = {
   handlePageChange: (value: number) => void,
   onFilterByGenre: (value: string) => void,
@@ -59,7 +61,7 @@ const Table = ({ rows, onRowClick, onFilterByTitle, onFilterByGenre, location, h
 
   return (
     <Paper>
-      <MaterialTable>
+      <StyledTable>
         <TableHead>
           <TableRow>
             <TableCell>Title</TableCell>
@@ -108,7 +110,7 @@ const Table = ({ rows, onRowClick, onFilterByTitle, onFilterByGenre, location, h
             />
           </TableRow>
         </TableFooter>
-      </MaterialTable>
+      </StyledTable>
     </Paper>
   );
 };
