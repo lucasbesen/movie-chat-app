@@ -1,3 +1,5 @@
+**Live demo**: click [here](https://movie-chat-app-lucasbesen.herokuapp.com/)
+
 ## :hammer: &nbsp; How to run the code
 
 First, you need to configure your `.env`. I put a default config on `.env.test`:
