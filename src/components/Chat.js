@@ -7,10 +7,9 @@ import Icon from '@material-ui/core/Icon';
 
 import type { RouteComponentProps } from 'react-router-dom';
 
-import CommentForm from './CommentForm';
-import Message from '../components/Message';
+import { CommentForm, Message } from './';
 
-import type { Comment } from "../utils";
+import type { Comment } from '../utils';
 
 const Wrapper = styled.div`
   display: flex;
@@ -24,7 +23,7 @@ const Header = styled.div`
   display: flex;
   flex: 1;
   flex-direction: row;
-  background-color: #2196F3;
+  background-color: #2196f3;
 `;
 
 const Body = styled.div`
