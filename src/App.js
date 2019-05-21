@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import configureStore from './core/store';
 import AppRouter from './AppRouter';
 
-import Header from './components/Header';
+import { Header } from './components';
 
 import './App.css';
 

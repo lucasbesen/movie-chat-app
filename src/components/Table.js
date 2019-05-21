@@ -18,9 +18,9 @@ import type { RouteComponentProps } from 'react-router-dom';
 
 import { formatRevenue, formatRuntime, paginateResult } from '../utils';
 
-import GenreSelectField from './GenreSelectField';
+import { GenreSelectField } from './';
 
-import type {Movie} from "../utils";
+import type { Movie } from '../utils';
 
 const StyledRow = styled(TableRow)`
   cursor: pointer;

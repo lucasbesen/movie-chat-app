@@ -11,7 +11,7 @@ import type { RouteComponentProps } from 'react-router-dom';
 import { getGenres } from '../utils';
 
 type Props = {
-  onChangeFilter: (string) => void,
+  onChangeFilter: string => void,
 } & RouteComponentProps;
 
 const GenreSelectField = ({ onChangeFilter, location }: Props) => {

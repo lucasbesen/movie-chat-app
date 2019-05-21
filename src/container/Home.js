@@ -3,7 +3,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import type { RouteComponentProps } from 'react-router-dom';
 
-import Table from '../components/Table';
+import { Table } from '../components';
 import { addFilter, getMovies } from '../utils';
 
 const Home = ({ history, location }: RouteComponentProps) => (

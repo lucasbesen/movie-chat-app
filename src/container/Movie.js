@@ -6,7 +6,7 @@ import { withHandlers, withProps } from 'recompose';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { firestoreConnect, isLoaded } from 'react-redux-firebase';
 
-import Chat from '../components/Chat';
+import { Chat } from '../components';
 
 type Props = {
   comments: string[],
