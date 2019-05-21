@@ -24,3 +24,9 @@ yarn start
 
 ## :question: &nbsp; If you had more time, what would you like to improve?
 I would like to add a authentication, get all movies and paginate through Firebase
+
+## :wrench: &nbsp; Tests
+Tests are available by running the following command:
+```sh
+yarn test a
+```
