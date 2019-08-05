@@ -5,7 +5,7 @@
 First, you need to configure your `.env`:
 
 ```sh
-cp .env.test .env
+cp .env.example .env
 ```
 
 Then just run the following command:
