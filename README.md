@@ -16,7 +16,7 @@ yarn start
 
 ## :gear: &nbsp; Explanation of architecture
 ```
-/app // Root
+/app
 --/src
 ----/components // Dump, common and UI components
 ----/container // Smart components (Routes components)
